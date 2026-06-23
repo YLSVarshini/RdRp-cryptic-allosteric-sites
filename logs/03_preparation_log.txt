@@ -1,0 +1,44 @@
+Structure Preparation Log — RdRp Cryptic Allosteric Sites Study
+======================================================================
+
+Methods text (ready to paste):
+--------------------------------------------------
+
+Each RdRp domain structure was prepared for molecular dynamics simulation
+using PDBFixer (Eastman et al., 2023). Crystallographic water molecules 
+and co-crystallised heteroatoms were removed. Missing residues within 
+resolved domain boundaries were modelled using PDBFixer's integrated 
+loop modelling protocol. Hydrogen atoms were added at physiological pH 
+7.4 using PDBFixer's hydrogen assignment routine, which employs standard 
+pKa values for titratable residues. Protonation states of histidine, 
+lysine, aspartate, and glutamate residues were verified using PROPKA. 
+The prepared structures were subsequently passed to GROMACS for molecular 
+dynamics force field parametrisation and simulation setup.
+
+Per-Structure Details:
+--------------------------------------------------
+
+H5N1_Influenza:
+  prepared_file: structures/prepared/H5N1_Influenza_prepared.pdb
+  propka: {'status': 'skipped'}
+  verification: {'n_residues': 685, 'n_atoms': 10904, 'n_hydrogens': 5429, 'n_waters': 0, 'has_H': True, 'water_free': True}
+
+Dengue_DENV3:
+  prepared_file: structures/prepared/Dengue_DENV3_prepared.pdb
+  propka: {'status': 'skipped'}
+  verification: {'n_residues': 593, 'n_atoms': 9587, 'n_hydrogens': 4753, 'n_waters': 0, 'has_H': True, 'water_free': True}
+
+Nipah_Virus:
+  prepared_file: structures/prepared/Nipah_Virus_prepared.pdb
+  propka: {'status': 'skipped'}
+  verification: {'n_residues': 560, 'n_atoms': 9189, 'n_hydrogens': 4624, 'n_waters': 0, 'has_H': True, 'water_free': True}
+
+RSV:
+  prepared_file: structures/prepared/RSV_prepared.pdb
+  propka: {'status': 'skipped'}
+  verification: {'n_residues': 520, 'n_atoms': 8718, 'n_hydrogens': 4420, 'n_waters': 0, 'has_H': True, 'water_free': True}
+
+Norovirus:
+  prepared_file: structures/prepared/Norovirus_prepared.pdb
+  propka: {'status': 'skipped'}
+  verification: {'n_residues': 479, 'n_atoms': 7520, 'n_hydrogens': 3757, 'n_waters': 0, 'has_H': True, 'water_free': True}

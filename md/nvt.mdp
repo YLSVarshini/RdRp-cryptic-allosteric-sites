@@ -1,0 +1,62 @@
+; ============================================================
+; NVT Equilibration Parameters (nvt.mdp)
+; 1 ns, 300 K, constant volume
+; ============================================================
+
+integrator      = md
+dt              = 0.002          ; 2 fs timestep
+nsteps          = 500000         ; 1 ns total (500000 × 2 fs)
+
+; Output frequency
+nstxout         = 5000           ; Save coordinates every 10 ps
+nstvout         = 5000
+nstfout         = 5000
+nstenergy       = 5000
+nstlog          = 5000
+nstxout-compressed = 5000
+
+; Neighbour searching
+cutoff-scheme   = Verlet
+ns_type         = grid
+nstlist         = 10
+rcoulomb        = 1.0
+rvdw            = 1.0
+
+; Electrostatics
+coulombtype     = PME
+pme_order       = 4
+fourierspacing  = 0.16
+
+; Van der Waals
+vdwtype         = Cut-off
+vdw-modifier    = Force-switch
+rlist           = 1.0
+rvdw-switch     = 0.9
+
+; Temperature coupling (Berendsen for equilibration)
+tcoupl          = V-rescale
+tc-grps         = Protein Non-Protein
+tau_t           = 0.1   0.1
+ref_t           = 300   300      ; Target temperature: 300 K (physiological ~310 K)
+                                  ; 300 K is standard for structural studies
+
+; Pressure coupling — OFF for NVT
+pcoupl          = no
+
+; Periodic boundary conditions
+pbc             = xyz
+
+; Constraints
+constraints     = h-bonds
+constraint-algorithm = lincs
+lincs_iter      = 1
+lincs_order     = 4
+
+; Velocity generation — ON for NVT equilibration
+gen_vel         = yes
+gen_temp        = 300
+gen_seed        = -1             ; Random seed
+
+; Position restraints — restrain protein during equilibration
+; Run with: -r [reference_structure] -n [index_file]
+; define                = -DPOSRES  ; Uncomment if using posres.itp

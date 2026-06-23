@@ -1,0 +1,62 @@
+; ============================================================
+; NPT Equilibration Parameters (npt.mdp)
+; 1 ns, 300 K, 1 bar — equilibrate pressure
+; ============================================================
+
+integrator      = md
+dt              = 0.002
+nsteps          = 500000         ; 1 ns
+
+; Output
+nstxout         = 5000
+nstvout         = 5000
+nstfout         = 5000
+nstenergy       = 5000
+nstlog          = 5000
+nstxout-compressed = 5000
+
+; Neighbour searching
+cutoff-scheme   = Verlet
+ns_type         = grid
+nstlist         = 10
+rcoulomb        = 1.0
+rvdw            = 1.0
+
+; Electrostatics
+coulombtype     = PME
+pme_order       = 4
+fourierspacing  = 0.16
+
+; Van der Waals
+vdwtype         = Cut-off
+vdw-modifier    = Force-switch
+rlist           = 1.0
+rvdw-switch     = 0.9
+
+; Temperature coupling
+tcoupl          = V-rescale
+tc-grps         = Protein Non-Protein
+tau_t           = 0.1   0.1
+ref_t           = 300   300
+
+; Pressure coupling (Parrinello-Rahman — production-quality)
+pcoupl          = Parrinello-Rahman
+pcoupltype      = isotropic
+tau_p           = 2.0            ; Pressure coupling time constant (ps)
+ref_p           = 1.0            ; Target pressure: 1 bar
+compressibility = 4.5e-5         ; Compressibility of water (bar^-1)
+
+; Periodic boundary conditions
+pbc             = xyz
+
+; Constraints
+constraints     = h-bonds
+constraint-algorithm = lincs
+lincs_iter      = 1
+lincs_order     = 4
+
+; Velocity generation — OFF (continue from NVT)
+gen_vel         = no
+
+; Position restraints — keep protein restrained
+; define          = -DPOSRES

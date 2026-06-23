@@ -1,0 +1,11 @@
+# Large trajectory and binary files
+*.xtc
+*.trr
+*.cpt
+*.edr
+*.tpr
+*.gro
+cuda-keyring_1.1-1_all.deb
+logs/*.json
+__pycache__/
+*.pyc

@@ -1,0 +1,80 @@
+; ============================================================
+; Production MD Parameters (md_prod.mdp)
+; 200 ns — saves frame every 100 ps = 2000 frames
+; ============================================================
+; For 500 ns: change nsteps to 250000000
+
+integrator      = md
+dt              = 0.002          ; 2 fs timestep
+nsteps          = 100000000      ; 200 ns (100M steps × 2 fs)
+
+; ─────────────────────────────────────────────
+; OUTPUT — critical for fpocket trajectory analysis
+; ─────────────────────────────────────────────
+nstxout         = 0              ; Don't write full .trr (save space)
+nstvout         = 0
+nstfout         = 0
+nstenergy       = 50000          ; Energy every 100 ps
+nstlog          = 50000          ; Log every 100 ps
+nstxout-compressed = 50000       ; XTC trajectory every 100 ps
+                                  ; 100M steps / 50000 = 2000 frames at 200 ns
+compressed-x-precision = 1000    ; XTC precision
+
+; ─────────────────────────────────────────────
+; NEIGHBOUR SEARCHING
+; ─────────────────────────────────────────────
+cutoff-scheme   = Verlet
+ns_type         = grid
+nstlist         = 10
+rcoulomb        = 1.0
+rvdw            = 1.0
+
+; ─────────────────────────────────────────────
+; ELECTROSTATICS
+; ─────────────────────────────────────────────
+coulombtype     = PME
+pme_order       = 4
+fourierspacing  = 0.16
+
+; ─────────────────────────────────────────────
+; VAN DER WAALS
+; ─────────────────────────────────────────────
+vdwtype         = Cut-off
+vdw-modifier    = Force-switch
+rlist           = 1.0
+rvdw-switch     = 0.9
+
+; ─────────────────────────────────────────────
+; TEMPERATURE (V-rescale — production-appropriate)
+; ─────────────────────────────────────────────
+tcoupl          = V-rescale
+tc-grps         = Protein Non-Protein
+tau_t           = 0.1   0.1
+ref_t           = 300   300
+
+; ─────────────────────────────────────────────
+; PRESSURE (Parrinello-Rahman)
+; ─────────────────────────────────────────────
+pcoupl          = Parrinello-Rahman
+pcoupltype      = isotropic
+tau_p           = 2.0
+ref_p           = 1.0
+compressibility = 4.5e-5
+
+; ─────────────────────────────────────────────
+; PBC & CONSTRAINTS
+; ─────────────────────────────────────────────
+pbc             = xyz
+constraints     = h-bonds
+constraint-algorithm = lincs
+lincs_iter      = 1
+lincs_order     = 4
+
+; No position restraints in production
+; No velocity generation (continuation from NPT)
+gen_vel         = no
+
+; ─────────────────────────────────────────────
+; CONTINUATION FLAG
+; ─────────────────────────────────────────────
+continuation    = yes
